@@ -1,0 +1,390 @@
+﻿<Window x:Class="TalePro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tale-Pro Video Processing Studio" Height="800" Width="1400"
+        WindowStyle="None" AllowsTransparency="True" Background="#0B101B"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="True" FontFamily="Segoe UI"
+        ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <Style x:Key="WindowBtnStyle" TargetType="Button"><Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="#8A95A5"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Width" Value="45"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#1A2235"/><Setter Property="Foreground" Value="White"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+        <Style x:Key="NavButtonStyle" TargetType="RadioButton"><Setter Property="Height" Value="45"/><Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="#8A95A5"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Margin" Value="12,4"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton"><Border Background="{TemplateBinding Background}" CornerRadius="8"><StackPanel Orientation="Horizontal" Margin="15,0,0,0" VerticalAlignment="Center"><Path Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Fill="{TemplateBinding Foreground}" Width="16" Height="16" Stretch="Uniform"/><TextBlock Text="{TemplateBinding Content}" Margin="12,0,0,0" FontSize="14" FontWeight="SemiBold"/></StackPanel></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Foreground" Value="#FFFFFF"/><Setter Property="Background" Value="#121828"/></Trigger><Trigger Property="IsChecked" Value="True"><Setter Property="Foreground" Value="#FFFFFF"/><Setter Property="Background" Value="#113668"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+        <Style x:Key="OutlineBtnStyle" TargetType="Button"><Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="#8A95A5"/><Setter Property="BorderBrush" Value="#2A354D"/><Setter Property="BorderThickness" Value="1"/><Setter Property="Padding" Value="12,6"/><Setter Property="Cursor" Value="Hand"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#1A2235"/><Setter Property="Foreground" Value="White"/><Setter Property="BorderBrush" Value="#4A5A7D"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+        <Style x:Key="PrimaryBtnStyle" TargetType="Button"><Setter Property="Background" Value="#2F80ED"/><Setter Property="Foreground" Value="White"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Padding" Value="16,8"/><Setter Property="Cursor" Value="Hand"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="6"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#113668"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+        <Style x:Key="IconBtnStyle" TargetType="Button"><Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="#8A95A5"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Width" Value="32"/><Setter Property="Height" Value="32"/><Setter Property="Cursor" Value="Hand"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="6"><Path Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Fill="{TemplateBinding Foreground}" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#331820"/><Setter Property="Foreground" Value="#E81123"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+        <Style x:Key="CustomSliderStyle" TargetType="Slider"><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Slider"><Grid><Border Height="6" Background="#2A354D" CornerRadius="3" VerticalAlignment="Center"/><Track x:Name="PART_Track"><Track.DecreaseRepeatButton><RepeatButton Command="Slider.DecreaseLarge"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Height="6" Background="#2F80ED" CornerRadius="3,0,0,3"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.DecreaseRepeatButton><Track.Thumb><Thumb><Thumb.Template><ControlTemplate TargetType="Thumb"><Ellipse Width="16" Height="16" Fill="#2F80ED" Stroke="#FFFFFF" StrokeThickness="2" Cursor="Hand"/></ControlTemplate></Thumb.Template></Thumb></Track.Thumb><Track.IncreaseRepeatButton><RepeatButton Command="Slider.IncreaseLarge"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Height="6" Background="Transparent"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.IncreaseRepeatButton></Track></Grid></ControlTemplate></Setter.Value></Setter></Style>
+        <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox"><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="CheckBox"><Border x:Name="border" Width="40" Height="20" CornerRadius="10" Background="#2A354D" Cursor="Hand"><Ellipse x:Name="ellipse" Width="14" Height="14" Fill="#8A95A5" HorizontalAlignment="Left" Margin="3,0,0,0"/></Border><ControlTemplate.Triggers><Trigger Property="IsChecked" Value="True"><Setter TargetName="border" Property="Background" Value="#2F80ED"/><Setter TargetName="ellipse" Property="Fill" Value="#FFFFFF"/><Setter TargetName="ellipse" Property="HorizontalAlignment" Value="Right"/><Setter TargetName="ellipse" Property="Margin" Value="0,0,3,0"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+        <Style x:Key="DarkComboBox" TargetType="ComboBox"><Setter Property="Foreground" Value="#F8FAFC"/><Setter Property="Background" Value="#0F172A"/><Setter Property="BorderBrush" Value="#1E293B"/><Setter Property="BorderThickness" Value="1"/><Setter Property="Height" Value="34"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBox"><Grid><ToggleButton x:Name="ToggleButton" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"><ToggleButton.Template><ControlTemplate TargetType="ToggleButton"><Border Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="6"><TextBlock Text="▼" Foreground="#94A3B8" FontSize="10" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center"/></Border></ControlTemplate></ToggleButton.Template></ToggleButton><ContentPresenter IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" Margin="12,0,28,0" VerticalAlignment="Center" HorizontalAlignment="Left"><ContentPresenter.Resources><Style TargetType="TextBlock"><Setter Property="Foreground" Value="#F8FAFC"/></Style></ContentPresenter.Resources></ContentPresenter><Popup x:Name="PART_Popup" AllowsTransparency="True" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom"><Border Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="6" MinWidth="{Binding ActualWidth, ElementName=ToggleButton}"><ScrollViewer MaxHeight="200"><StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/></ScrollViewer></Border></Popup></Grid></ControlTemplate></Setter.Value></Setter></Style>
+        <Style TargetType="ComboBoxItem"><Setter Property="Background" Value="#0F172A"/><Setter Property="Foreground" Value="#F8FAFC"/><Setter Property="Padding" Value="12,8"/><Setter Property="Cursor" Value="Hand"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBoxItem"><Border x:Name="Border" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="3" Margin="2,1"><ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Border" Property="Background" Value="#1E3A8A"/></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="Border" Property="Background" Value="#1E3A8A"/><Setter Property="Foreground" Value="#FFFFFF"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+        <Style TargetType="ScrollBar"><Setter Property="Background" Value="Transparent"/><Setter Property="Width" Value="8"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollBar"><Grid Background="Transparent"><Track x:Name="PART_Track" IsDirectionReversed="true"><Track.Thumb><Thumb><Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="#1E293B" CornerRadius="4"/></ControlTemplate></Thumb.Template></Thumb></Track.Thumb></Track></Grid></ControlTemplate></Setter.Value></Setter></Style>
+    </Window.Resources>
+
+    <Grid x:Name="AppWrapper">
+        <Grid x:Name="RootGrid">
+            <Grid.RowDefinitions><RowDefinition Height="50"/><RowDefinition Height="*"/><RowDefinition Height="70"/></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="*"/><ColumnDefinition Width="320"/></Grid.ColumnDefinitions>
+
+            <Border Grid.Row="0" Grid.ColumnSpan="3" Background="#080C15" MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
+                        <Border Background="#2F80ED" Width="24" Height="24" CornerRadius="4"><TextBlock Text="T" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/></Border>
+                        <TextBlock Text="TALE-PRO" Foreground="White" FontWeight="Bold" FontSize="15" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="VIDEO PROCESSING STUDIO" Foreground="#5A6679" FontWeight="SemiBold" FontSize="11" Margin="10,2,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="⚙" Style="{StaticResource WindowBtnStyle}" Click="NavSettings_Click" FontSize="16" Margin="0,0,10,0"/>
+                        <Button Content="—" Style="{StaticResource WindowBtnStyle}" Click="Minimize_Click"/>
+                        <Button Content="☐" Style="{StaticResource WindowBtnStyle}" Click="Maximize_Click"/>
+                        <Button Content="✕" Style="{StaticResource WindowBtnStyle}" Click="Close_Click"><Button.Resources><Style TargetType="Button" BasedOn="{StaticResource WindowBtnStyle}"><Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#E81123"/></Trigger></Style.Triggers></Style></Button.Resources></Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Background="#080C15" BorderBrush="#1A2235" BorderThickness="0,1,1,0">
+                <Grid>
+                    <StackPanel Margin="0,15,0,0">
+                        <RadioButton x:Name="TabHome" Content="Home" IsChecked="True" Style="{StaticResource NavButtonStyle}" Tag="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" Click="NavTab_Click"/>
+                        <RadioButton x:Name="TabProcess" Content="Process" Style="{StaticResource NavButtonStyle}" Tag="M8,5.14V19.14L19,12.14L8,5.14Z" Click="NavTab_Click"/>
+                        <RadioButton x:Name="TabCompare" Content="Compare" Style="{StaticResource NavButtonStyle}" Tag="M18,3H6C4.89,3 4,3.89 4,5V19C4,20.1 4.89,21 6,21H18C19.1,21 20,20.1 20,19V5C20,3.89 19.1,3 18,3M10,19H6V5H10V19M18,19H14V5H18V19M12,11V13H12V11Z" Click="NavTab_Click"/>
+                        <RadioButton x:Name="TabSettings" Content="Settings" Style="{StaticResource NavButtonStyle}" Tag="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.98C19.47,12.66 19.5,12.34 19.5,12C19.5,11.66 19.47,11.34 19.43,11.02L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.65 15.48,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.52,5.32 7.96,5.65 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.02C4.53,11.34 4.5,11.66 4.5,12C4.5,12.34 4.53,12.66 4.57,12.98L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.04 4.95,18.95L7.44,17.95C7.96,18.35 8.52,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.48,18.68 16.04,18.35 16.56,17.95L19.05,18.95C19.27,19.04 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.98Z" Click="NavTab_Click"/>
+                        <RadioButton x:Name="TabAbout" Content="About" Style="{StaticResource NavButtonStyle}" Tag="M11,18H13V10H11V18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" Click="NavTab_Click"/>
+                    </StackPanel>
+                    <Border VerticalAlignment="Bottom" Margin="15,0,15,20" Background="#0C1425" BorderBrush="#1A2844" BorderThickness="1" CornerRadius="6" Padding="12">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Data="M7,2V13H10V22L17,10H13L17,2H7Z" Fill="#2F80ED" Width="14" Height="20" Stretch="Uniform" VerticalAlignment="Center"/>
+                            <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="Hardware Accelerated" Foreground="#D1D5DB" FontSize="11" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="NavHwStatusTxt" Text="Universal GPU Engine" Foreground="#8A95A5" FontSize="9" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="#0B101B" BorderBrush="#1A2235" BorderThickness="0,1,0,0">
+                <Grid>
+                    <!-- 1. HOME VIEW -->
+                    <Grid x:Name="ViewHome" Visibility="Visible">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="320"/></Grid.ColumnDefinitions>
+                        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="20">
+                                <Border x:Name="EmptyStateBorder" Height="140" Background="#0C1425" CornerRadius="10" AllowDrop="True" Drop="Grid_Drop" MouseLeftButtonDown="SelectVideo_Click" Cursor="Hand" Visibility="Visible">
+                                    <Grid>
+                                        <Rectangle Stroke="#2A354D" StrokeThickness="2" StrokeDashArray="4 4" RadiusX="10" RadiusY="10" Margin="2"/>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Path Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" Fill="#5A6679" Width="32" Height="32" Stretch="Uniform" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                            <TextBlock Text="Click to Select Video or Drag &amp; Drop" Foreground="#8A95A5" FontSize="15" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel x:Name="LoadedStatePanel" Visibility="Collapsed">
+                                    <Border Background="#0C1425" BorderBrush="#151E32" BorderThickness="1" CornerRadius="10" Padding="15">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" Width="160" Height="90">
+                                                <Border CornerRadius="6" Background="#05080E" ClipToBounds="True"><Image x:Name="ThumbImage" Stretch="UniformToFill"/></Border>
+                                                <Border HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6" Background="#E6000000" CornerRadius="4" Padding="6,2"><TextBlock x:Name="ThumbResBadge" Text="4K" Foreground="White" FontSize="11" FontWeight="Bold"/></Border>
+                                            </Grid>
+                                            <StackPanel Grid.Column="1" Margin="20,5,0,0" VerticalAlignment="Top">
+                                                <TextBlock x:Name="VidTitle" Text="Loading..." Foreground="#E2E8F0" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,15" TextTrimming="CharacterEllipsis"/>
+                                                <WrapPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,20,5"><Path Data="M21,16H3V8H21M21,6H3C1.89,6 1,6.89 1,8V16A2,2 0 0,0 3,18H21A2,2 0 0,0 23,16V8C23,6.89 22.1,6 21,6Z" Fill="#5A6679" Width="14" Height="14" Stretch="Uniform"/><TextBlock x:Name="VidResolution" Text="-" Foreground="#8A95A5" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center"/></StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,20,5"><Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,6V12L16.25,14.5L17,13.25L13.5,11.25V6H12Z" Fill="#5A6679" Width="14" Height="14" Stretch="Uniform"/><TextBlock x:Name="VidFPS" Text="-" Foreground="#8A95A5" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center"/></StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,20,5"><Path Data="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" Fill="#5A6679" Width="14" Height="14" Stretch="Uniform"/><TextBlock x:Name="VidDuration" Text="-" Foreground="#8A95A5" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center"/></StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,20,5"><Path Data="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z" Fill="#5A6679" Width="14" Height="14" Stretch="Uniform"/><TextBlock x:Name="VidSize" Text="-" Foreground="#8A95A5" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center"/></StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,20,5"><Path Data="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" Fill="#5A6679" Width="14" Height="14" Stretch="Uniform"/><TextBlock x:Name="VidCodec" Text="-" Foreground="#8A95A5" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center"/></StackPanel>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,5,0,0">
+                                                <Button Style="{StaticResource OutlineBtnStyle}" Click="ChangeFile_Click"><StackPanel Orientation="Horizontal"><Path Data="M21,19V5C21,3.89 20.1,3 19,3H14.71L12.71,5H5C3.89,5 3,5.89 3,7V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19M5,19V7H19V19H5M12.5,10V12H9.5V14H12.5V16L15.5,13L12.5,10Z" Fill="#8A95A5" Width="14" Height="14" Stretch="Uniform"/><TextBlock Text="Change File" Margin="6,0,0,0" FontSize="12" FontWeight="SemiBold"/></StackPanel></Button>
+                                                <Button Style="{StaticResource IconBtnStyle}" Click="Trash_Click" Margin="10,0,0,0" Tag="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Process Settings Card -->
+                                    <Border Background="#0C1425" BorderBrush="#151E32" BorderThickness="1" CornerRadius="10" Padding="20" Margin="0,20,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="10*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="9*"/><ColumnDefinition Width="10*"/></Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,20,0">
+                                                <TextBlock Text="PROCESS SETTINGS" Foreground="#5A6679" FontSize="11" FontWeight="Bold" Margin="0,0,0,20"/>
+                                                <TextBlock Text="Quality / Size Level" Foreground="#8A95A5" FontSize="12" Margin="0,0,0,15"/>
+                                                <Slider x:Name="QualitySlider" Minimum="1" Maximum="10" Value="6" IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource CustomSliderStyle}" ValueChanged="Config_ValueChanged"/>
+                                                <UniformGrid Columns="10" Margin="0,8,0,0">
+                                                    <TextBlock Text="1" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="2" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="3" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="4" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="5" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="6" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="7" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="8" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="9" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="10" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/>
+                                                </UniformGrid>
+                                            </StackPanel>
+                                            <Rectangle Grid.Column="1" Width="1" Fill="#1A2235" Margin="10,0"/>
+                                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0,10,0">
+                                                <TextBlock Text="Estimated Output Size" Foreground="#8A95A5" FontSize="12" Margin="0,0,0,10"/>
+                                                <WrapPanel Margin="0,0,0,20" VerticalAlignment="Center">
+                                                    <TextBlock x:Name="EstSizeTxt" Text="~ 0 MB" Foreground="#FFFFFF" FontSize="18" FontWeight="Bold"/>
+                                                    <Border x:Name="EstBadgeBorder" Background="#064E3B" CornerRadius="4" Padding="8,3" Margin="10,0,0,0" VerticalAlignment="Center">
+                                                        <TextBlock x:Name="EstBadgeTxt" Text="0% smaller" Foreground="#10B981" FontSize="11" FontWeight="SemiBold"/>
+                                                    </Border>
+                                                </WrapPanel>
+                                                <TextBlock Text="Estimated Time" Foreground="#8A95A5" FontSize="12" Margin="0,0,0,8"/>
+                                                <TextBlock x:Name="EstTimeTxt" Text="⏱ ~ 0s" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                            <Grid Grid.Column="3" VerticalAlignment="Center" Margin="10,0,0,0">
+                                                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,15">
+                                                    <TextBlock Text="Encoding Preset" Foreground="#8A95A5" FontSize="11" Margin="0,0,0,6"/>
+                                                    <ComboBox x:Name="PresetCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged"><ComboBoxItem Content="Tale-Pro (Recommended)"/><ComboBoxItem Content="Ultra Fast NVENC"/><ComboBoxItem Content="x264 Studio Master"/></ComboBox>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,0,0,15">
+                                                    <TextBlock Text="Codec" Foreground="#8A95A5" FontSize="11" Margin="0,0,0,6"/>
+                                                    <ComboBox x:Name="CodecCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged"><ComboBoxItem Content="H.264 (MP4)"/><ComboBoxItem Content="HEVC / H.265 (MP4)"/></ComboBox>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,15" Orientation="Horizontal" VerticalAlignment="Bottom">
+                                                    <TextBlock Text="Hardware Acceleration" Foreground="#8A95A5" FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                    <CheckBox x:Name="HwAccelToggle" IsChecked="True" Style="{StaticResource ToggleSwitchStyle}" Click="Config_Click"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0,0,15">
+                                                    <TextBlock Text="Audio" Foreground="#8A95A5" FontSize="11" Margin="0,0,0,6"/>
+                                                    <ComboBox x:Name="AudioCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged"><ComboBoxItem Content="AAC (Original)"/><ComboBoxItem Content="AAC 160k (-14 LUFS)"/></ComboBox>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0">
+                                                    <ToggleButton x:Name="BtnAdvSettings" Background="#0F172A" BorderThickness="1" BorderBrush="#1E293B" Foreground="#F8FAFC" Padding="10,6" Height="34" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Cursor="Hand">
+                                                        <ToggleButton.Template><ControlTemplate TargetType="ToggleButton"><Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6"><Grid Margin="10,0"><TextBlock Text="Advanced Settings" VerticalAlignment="Center" FontSize="12"/><TextBlock Text="▼" Foreground="#94A3B8" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Center"/></Grid></Border></ControlTemplate></ToggleButton.Template>
+                                                    </ToggleButton>
+                                                    <Popup PlacementTarget="{Binding ElementName=BtnAdvSettings}" Placement="Bottom" IsOpen="{Binding IsChecked, ElementName=BtnAdvSettings}" AllowsTransparency="True" StaysOpen="False">
+                                                        <Border Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,5,0,0" Width="{Binding ActualWidth, ElementName=BtnAdvSettings}">
+                                                            <StackPanel>
+                                                                <TextBlock Text="Frame Rate (FPS)" Foreground="#8A95A5" FontSize="11" Margin="0,0,0,6"/>
+                                                                <ComboBox x:Name="FpsCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged" Margin="0,0,0,10"><ComboBoxItem Content="Same as Source"/><ComboBoxItem Content="30 FPS"/><ComboBoxItem Content="60 FPS"/></ComboBox>
+                                                                <TextBlock Text="Strip Metadata" Foreground="#8A95A5" FontSize="11" Margin="0,0,0,6"/>
+                                                                <ComboBox x:Name="MetadataCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged" Margin="0,0,0,10"><ComboBoxItem Content="Enabled"/><ComboBoxItem Content="Disabled"/></ComboBox>
+                                                                <TextBlock Text="100% Bypass (mvhd + stsc)" Foreground="#8A95A5" FontSize="11" Margin="0,0,0,6"/>
+                                                                <ComboBox x:Name="BypassCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged"><ComboBoxItem Content="Enabled (Recommended)"/><ComboBoxItem Content="Disabled (Compress Only)"/></ComboBox>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Popup>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Home Player Container -->
+                                    <Grid x:Name="HomePlayerContainer" Margin="0,20,0,20"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!-- Right Sidebar -->
+                        <Border Grid.Column="1" Background="#080C15" BorderBrush="#1A2235" BorderThickness="1,0,0,0">
+                            <StackPanel Margin="15">
+                                <Border Background="#0C1425" BorderBrush="#151E32" BorderThickness="1" CornerRadius="10" Padding="15">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15"><Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M11,7H13V9H11V7M11,11H13V17H11V11Z" Fill="#5A6679" Width="14" Height="14" Stretch="Uniform"/><TextBlock Text="Tale-Pro Features" Foreground="#8A95A5" FontSize="12" FontWeight="SemiBold" Margin="8,0,0,0" VerticalAlignment="Center"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12"><Path Data="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M17,10L15.5,11.5L17,13M10,17L11.5,15.5L10,14" Fill="#2F80ED" Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Top" Margin="0,2,0,0"/><StackPanel Margin="10,0,0,0"><TextBlock Text="Smart Compression" Foreground="#D1D5DB" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="Reduce size without losing quality" Foreground="#5A6679" FontSize="10" Margin="0,2,0,0"/></StackPanel></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12"><Path Data="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9Z" Fill="#2F80ED" Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Top" Margin="0,2,0,0"/><StackPanel Margin="10,0,0,0"><TextBlock Text="100% Bypass Mode" Foreground="#D1D5DB" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="Haze binary bypass (mvhd + stsc)" Foreground="#5A6679" FontSize="10" Margin="0,2,0,0"/></StackPanel></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12"><Path Data="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M11,15V12H9V15H6V17H9V20H11V17H14V15H11Z" Fill="#2F80ED" Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Top" Margin="0,2,0,0"/><StackPanel Margin="10,0,0,0"><TextBlock Text="Supports Large Files" Foreground="#D1D5DB" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="Up to 5GB - 4K - 20 Minutes" Foreground="#5A6679" FontSize="10" Margin="0,2,0,0"/></StackPanel></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12"><Path Data="M18,3H6C4.89,3 4,3.89 4,5V19C4,20.1 4.89,21 6,21H18C19.1,21 20,20.1 20,19V5C20,3.89 19.1,3 18,3M10,19H6V5H10V19M18,19H14V5H18V19M12,11V13H12V11Z" Fill="#2F80ED" Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Top" Margin="0,2,0,0"/><StackPanel Margin="10,0,0,0"><TextBlock Text="5-Second Split Compare" Foreground="#D1D5DB" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="Verify quality before upload" Foreground="#5A6679" FontSize="10" Margin="0,2,0,0"/></StackPanel></StackPanel>
+                                        <StackPanel Orientation="Horizontal"><Path Data="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.11 3.9,21 5,21H19C20.11,21 21,20.11 21,19V5C21,3.89 20.1,3 19,3M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" Fill="#2F80ED" Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Top" Margin="0,2,0,0"/><StackPanel Margin="10,0,0,0"><TextBlock Text="Clean &amp; Simple UI" Foreground="#D1D5DB" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="No logs - No terminal - Just results" Foreground="#5A6679" FontSize="10" Margin="0,2,0,0"/></StackPanel></StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#0C1425" BorderBrush="#151E32" BorderThickness="1" CornerRadius="10" Padding="15" Margin="0,15,0,0">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,20"><Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,19.93C7.06,19.43 4,16.05 4,12C4,7.95 7.06,4.57 11,4.07V19.93M13,4.07C16.94,4.57 20,7.95 20,12C20,16.05 16.94,19.43 13,19.93V4.07Z" Fill="#5A6679" Width="14" Height="14" Stretch="Uniform"/><TextBlock Text="Processing Progress" Foreground="#8A95A5" FontSize="12" FontWeight="SemiBold" Margin="8,0,0,0" VerticalAlignment="Center"/></StackPanel>
+                                        <Grid Width="110" Height="110" HorizontalAlignment="Center">
+                                            <Ellipse Stroke="#151E32" StrokeThickness="8" />
+                                            <Ellipse x:Name="CircProgress" Stroke="#2F80ED" StrokeThickness="8" StrokeDashCap="Round" RenderTransformOrigin="0.5,0.5">
+                                                <Ellipse.RenderTransform><RotateTransform Angle="-90"/></Ellipse.RenderTransform>
+                                            </Ellipse>
+                                            <TextBlock x:Name="RingTxt" Text="0%" Foreground="#FFFFFF" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <TextBlock x:Name="StatusTxt" Text="Ready" Foreground="#8A95A5" FontSize="11" HorizontalAlignment="Center" Margin="0,20,0,10" TextWrapping="Wrap" TextAlignment="Center"/>
+                                        <ProgressBar x:Name="LinearProgress" Height="4" Background="#151E32" Foreground="#2F80ED" BorderThickness="0" Maximum="100" Value="0" Margin="0,0,0,15"/>
+                                        <Grid>
+                                            <TextBlock Text="Time Remaining" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Left"/>
+                                            <TextBlock x:Name="TimeRemainingTxt" Text="--:--" Foreground="#8A95A5" FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- 2. PROCESS VIEW -->
+                    <Grid x:Name="ViewProcess" Visibility="Collapsed">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Processing Studio" Foreground="#E2E8F0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,40"/>
+                            <Grid Width="200" Height="200" HorizontalAlignment="Center">
+                                <Ellipse Stroke="#151E32" StrokeThickness="12" />
+                                <Ellipse x:Name="CircProcessView" Stroke="#2F80ED" StrokeThickness="12" StrokeDashCap="Round" RenderTransformOrigin="0.5,0.5">
+                                    <Ellipse.RenderTransform><RotateTransform Angle="-90"/></Ellipse.RenderTransform>
+                                </Ellipse>
+                                <TextBlock x:Name="RingTxtProc" Text="0%" Foreground="#FFFFFF" FontSize="42" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <TextBlock x:Name="StatusTxtProc" Text="Standby" Foreground="#8A95A5" FontSize="16" HorizontalAlignment="Center" Margin="0,30,0,20"/>
+                            <ProgressBar x:Name="LinearProgressProc" Height="8" Width="400" Background="#151E32" Foreground="#2F80ED" BorderThickness="0" Maximum="100" Value="0" Margin="0,0,0,20"/>
+                            <TextBlock x:Name="TimeRemainingTxtProc" Text="Time Remaining: --:--" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- 3. COMPARE VIEW -->
+                    <Grid x:Name="ViewCompare" Visibility="Collapsed" Margin="20">
+                        <Grid x:Name="ComparePlayerContainer"/>
+                    </Grid>
+
+                    <!-- 4. FULL SETTINGS VIEW -->
+                    <Grid x:Name="ViewSettings" Visibility="Collapsed">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="40">
+                                <TextBlock Text="Global Settings" Foreground="#E2E8F0" FontSize="24" FontWeight="Bold" Margin="0,0,0,30"/>
+                                <Border Background="#0C1425" BorderBrush="#151E32" BorderThickness="1" CornerRadius="10" Padding="30">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                                            <TextBlock Text="Hardware Engine" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <RadioButton x:Name="SetCpu" Content="Force CPU Engine (Multi-Core x264/x265)" Foreground="#8A95A5" Margin="0,0,0,10" IsChecked="False" Click="Config_Click"/>
+                                            <RadioButton x:Name="SetGpu" Content="Enable GPU Engine (NVIDIA/AMD/Intel)" Foreground="#8A95A5" IsChecked="True" Margin="0,0,0,25" Click="Config_Click"/>
+                                            
+                                            <TextBlock Text="Output Directory" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <Grid Margin="0,0,0,25">
+                                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                                <TextBox Text="Same as Source" Background="#0F172A" Foreground="#F8FAFC" BorderBrush="#1E293B" Padding="10" IsReadOnly="True"/>
+                                                <Button Grid.Column="1" Content="Browse..." Style="{StaticResource OutlineBtnStyle}" Margin="10,0,0,0"/>
+                                            </Grid>
+
+                                            <TextBlock Text="Quality / Size Level" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <Slider x:Name="SetQualitySlider" Minimum="1" Maximum="10" Value="6" IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource CustomSliderStyle}" ValueChanged="Config_ValueChanged"/>
+                                            <UniformGrid Columns="10" Margin="0,8,0,25">
+                                                <TextBlock Text="1" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="2" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="3" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="4" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="5" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="6" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="7" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="8" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="9" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/><TextBlock Text="10" Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/>
+                                            </UniformGrid>
+
+                                            <TextBlock Text="Encoding Preset" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <ComboBox x:Name="SetPresetCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged"><ComboBoxItem Content="Tale-Pro (Recommended)"/><ComboBoxItem Content="Ultra Fast NVENC"/><ComboBoxItem Content="x264 Studio Master"/></ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                                            <TextBlock Text="Codec" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <ComboBox x:Name="SetCodecCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged" Margin="0,0,0,25"><ComboBoxItem Content="H.264 (MP4)"/><ComboBoxItem Content="HEVC / H.265 (MP4)"/></ComboBox>
+                                            
+                                            <TextBlock Text="Audio Profile" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <ComboBox x:Name="SetAudioCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged" Margin="0,0,0,25"><ComboBoxItem Content="AAC (Original)"/><ComboBoxItem Content="AAC 160k (-14 LUFS)"/></ComboBox>
+                                            
+                                            <TextBlock Text="Frame Rate (FPS)" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <ComboBox x:Name="SetFpsCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged" Margin="0,0,0,25"><ComboBoxItem Content="Same as Source"/><ComboBoxItem Content="30 FPS"/><ComboBoxItem Content="60 FPS"/></ComboBox>
+                                            
+                                            <TextBlock Text="Strip Metadata" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <ComboBox x:Name="SetMetadataCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged" Margin="0,0,0,25"><ComboBoxItem Content="Enabled"/><ComboBoxItem Content="Disabled"/></ComboBox>
+                                            
+                                            <TextBlock Text="100% Bypass (mvhd + stsc)" Foreground="#D1D5DB" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                            <ComboBox x:Name="SetBypassCombo" Style="{StaticResource DarkComboBox}" SelectedIndex="0" SelectionChanged="Config_SelectionChanged"><ComboBoxItem Content="Enabled (Recommended)"/><ComboBoxItem Content="Disabled (Compress Only)"/></ComboBox>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+
+                    <!-- 5. ABOUT VIEW -->
+                    <Grid x:Name="ViewAbout" Visibility="Collapsed" Margin="40">
+                        <Border Background="#0C1425" BorderBrush="#151E32" BorderThickness="1" CornerRadius="10" Padding="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel>
+                                <Border Background="#2F80ED" Width="64" Height="64" CornerRadius="12" HorizontalAlignment="Center" Margin="0,0,0,20">
+                                    <TextBlock Text="T" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+                                </Border>
+                                <TextBlock Text="TALE-PRO Video Processing Studio v1.0" Foreground="#E2E8F0" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <TextBlock Text="Lead Developer &amp; Creator: Talha" Foreground="#2F80ED" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+                                <TextBlock Text="Architecture Specs:" Foreground="#8A95A5" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TextBlock Text="• 64-Bit Streaming Engine" Foreground="#8A95A5" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBlock Text="• Universal GPU Hardware Acceleration (Supports All NVIDIA / AMD / Intel Cards)" Foreground="#8A95A5" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBlock Text="• Haze Native mvhd + stsc Zero-Recompression Bypass" Foreground="#8A95A5" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBlock Text="• Seamless 4K and 5GB Large File Support" Foreground="#8A95A5" FontSize="12" Margin="0,0,0,20"/>
+                                <TextBlock Text="© 2026 Tale-Pro Studio. All Rights Reserved." Foreground="#5A6679" FontSize="11" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Bottom Action Bar -->
+            <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Background="#0C1425" BorderBrush="#1A2235" BorderThickness="0,1,0,0" Padding="20,0">
+                <Grid>
+                    <Button x:Name="BtnBackToHome" Style="{StaticResource OutlineBtnStyle}" HorizontalAlignment="Left" Click="BtnBackToHome_Click" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="←" Margin="0,0,8,0" VerticalAlignment="Center" FontSize="14"/><TextBlock Text="Back to Home" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12"/></StackPanel>
+                    </Button>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Style="{StaticResource OutlineBtnStyle}" Margin="0,0,12,0" Content="Open Output Folder" Click="OpenFolder_Click"/>
+                        
+                        <!-- STOP / CLEAR Buttons -->
+                        <Button x:Name="BtnStop" Visibility="Collapsed" Background="#EF4444" Foreground="White" BorderThickness="0" Padding="12,8" Cursor="Hand" Margin="0,0,12,0" Click="BtnStop_Click">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="6"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#DC2626"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Button.Template>
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="⏹" Margin="0,0,6,0" VerticalAlignment="Center" FontSize="12"/><TextBlock Text="Stop" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/></StackPanel>
+                        </Button>
+                        <Button x:Name="BtnClear" Visibility="Collapsed" Background="#334155" Foreground="White" BorderThickness="0" Padding="12,8" Cursor="Hand" Margin="0,0,12,0" Click="BtnClear_Click">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="6"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#475569"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Button.Template>
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="🧹" Margin="0,0,6,0" VerticalAlignment="Center" FontSize="12"/><TextBlock Text="Clear" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/></StackPanel>
+                        </Button>
+                        
+                        <Button x:Name="BtnProcess" Style="{StaticResource PrimaryBtnStyle}" Click="BtnProcess_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="⚡" Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12"/><TextBlock x:Name="BtnProcessTxt" Text="Process Video" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/></StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="FullscreenOverlay" Visibility="Collapsed" Background="#0B101B" Panel.ZIndex="999"/>
+
+        <!-- 5-Second Player Overlay/Workspace -->
+        <Border x:Name="PlayerRoot" Background="#0C1425" BorderBrush="#151E32" BorderThickness="1" CornerRadius="10" Padding="15" Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="5-Second Comparison" Foreground="#E2E8F0" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="BtnModeSide" Content="Side by Side" Style="{StaticResource OutlineBtnStyle}" Margin="0,0,10,0" Foreground="White" BorderBrush="#2F80ED" Background="#113668" Click="BtnModeSide_Click"/>
+                        <Button x:Name="BtnModeOverlay" Content="Overlay Wipe" Style="{StaticResource OutlineBtnStyle}" Margin="0,0,10,0" Click="BtnModeOverlay_Click"/>
+                        <Button x:Name="BtnModeFull" Content="⛶" Style="{StaticResource OutlineBtnStyle}" Click="BtnModeFull_Click"/>
+                    </StackPanel>
+                </Grid>
+                
+                <Border Grid.Row="1" Background="#05080E" CornerRadius="6" ClipToBounds="True" x:Name="PlayerContainer" Height="280" SizeChanged="PlayerContainer_SizeChanged">
+                    <Grid x:Name="PlayerInnerGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColOrig" Width="*"/>
+                            <ColumnDefinition x:Name="ColProc" Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <MediaElement x:Name="PlayerOriginal" Grid.Column="0" Stretch="Uniform" LoadedBehavior="Manual" MediaEnded="Player_MediaEnded"/>
+                        
+                        <Grid x:Name="ProcContainer" Grid.Column="1" Background="#090D16">
+                            <MediaElement x:Name="PlayerProcessed" Stretch="Uniform" LoadedBehavior="Manual" MediaEnded="Player_MediaEnded">
+                                <MediaElement.Clip><RectangleGeometry x:Name="ProcessedClip"/></MediaElement.Clip>
+                            </MediaElement>
+                            <TextBlock x:Name="ProcessingPreviewTxt" Text="Processing Output Preview..." Foreground="#8A95A5" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                        </Grid>
+                        
+                        <Rectangle x:Name="CenterDivider" Grid.Column="0" Width="2" Fill="#1E293B" HorizontalAlignment="Right" IsHitTestVisible="False"/>
+                        
+                        <TextBlock x:Name="OrigLabel" Grid.Column="0" Text="Original" Foreground="White" Background="#99000000" Padding="6,2" Margin="15,15,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" FontWeight="SemiBold" IsHitTestVisible="False"/>
+                        <TextBlock x:Name="ProcLabel" Grid.Column="1" Text="Processed" Foreground="#2F80ED" Background="#99000000" Padding="6,2" Margin="0,15,15,0" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="12" FontWeight="SemiBold" IsHitTestVisible="False"/>
+                        
+                        <Slider x:Name="WipeSlider" Grid.ColumnSpan="2" Minimum="0" Maximum="100" Value="50" ValueChanged="WipeSlider_ValueChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0.8" Visibility="Collapsed">
+                            <Slider.Template><ControlTemplate TargetType="Slider">
+                                <Grid><Track x:Name="PART_Track"><Track.Thumb><Thumb><Thumb.Template><ControlTemplate TargetType="Thumb"><Border Width="24" Height="24" Background="#111827" BorderBrush="#2F80ED" BorderThickness="2" CornerRadius="12" Cursor="SizeWE"><TextBlock Text="↔" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border></ControlTemplate></Thumb.Template></Thumb></Track.Thumb></Track><Rectangle Fill="White" Width="2" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="{Binding Margin, ElementName=PART_Track.Thumb}"/></Grid>
+                            </ControlTemplate></Slider.Template>
+                        </Slider>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="2" Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="▶" Style="{StaticResource WindowBtnStyle}" Width="30" FontSize="16" Click="PlayPause_Click" x:Name="BtnPlayPause"/>
+                    <Button Grid.Column="1" Content="🔊" Style="{StaticResource WindowBtnStyle}" Width="30" FontSize="14" Click="Mute_Click" x:Name="BtnMute"/>
+                    <Slider Grid.Column="2" x:Name="TimeScrubber" Minimum="0" Maximum="5" Value="0" Style="{StaticResource CustomSliderStyle}" Margin="15,0" VerticalAlignment="Center" ValueChanged="TimeScrubber_ValueChanged"/>
+                    <TextBlock Grid.Column="3" x:Name="TimeCodeTxt" Text="00:00.00 / 00:00.00" Foreground="#8A95A5" FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
+
+
